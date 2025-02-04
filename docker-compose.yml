@@ -1,0 +1,71 @@
+services:
+  user-service:
+    build: ./user-services
+    container_name: user-service
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=myappuser
+      - DB_PASS=myapppass
+      - DB_NAME=myappdb
+    networks:
+      - app-network
+
+  product-service:
+    build: ./product-services
+    container_name: product-service
+    ports:
+      - "5001:5001"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=myappuser
+      - DB_PASS=myapppass
+      - DB_NAME=myappdb
+    networks:
+      - app-network
+
+  order-service:
+    build: ./order-services
+    container_name: order-service
+    ports:
+      - "5002:5002"
+    depends_on:
+      - db
+      - user-service
+      - product-service
+    environment:
+      - DB_HOST=db
+      - DB_USER=myappuser
+      - DB_PASS=myapppass
+      - DB_NAME=myappdb
+      - USER_SERVICE_URL=http://user-service:5000
+      - PRODUCT_SERVICE_URL=http://product-service:5001
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpwd
+      MYSQL_DATABASE: myappdb
+      MYSQL_USER: myappuser
+      MYSQL_PASSWORD: myapppass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge
