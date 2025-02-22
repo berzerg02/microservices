@@ -1,0 +1,8 @@
+plugins {
+    id 'java'
+}
+
+jar {
+    archiveBaseName = 'microservices'
+    archiveVersion = '1.0'
+}

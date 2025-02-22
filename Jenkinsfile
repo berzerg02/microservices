@@ -14,9 +14,9 @@ pipeline {
                 bat 'gradlew.bat clean build'
             }
         }
-        stage('Test') {
+        stage('Verify JAR Exists') {
             steps {
-                bat 'gradlew.bat test'
+                bat 'if not exist build\\libs\\*.jar exit /b 1'
             }
         }
         stage('Docker Build') {
