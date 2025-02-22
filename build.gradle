@@ -1,8 +1,29 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.2.3'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'application'
+}
+
+group = 'org.example'  // ✅ Update to match your package
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+
+application {
+    mainClass = 'org.example.App'  // ✅ Set correct main class
 }
 
 jar {
-    archiveBaseName = 'microservices'
-    archiveVersion = '1.0'
+    manifest {
+        attributes(
+            'Main-Class': 'org.example.App'  // ✅ Fix missing main class
+        )
+    }
 }
