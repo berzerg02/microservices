@@ -1,8 +1,21 @@
 plugins {
     id 'java'
+    id 'application'
+}
+
+application {
+    mainClass = 'com.example.Main'  // Update with your actual main class
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
 }
 
 jar {
-    archiveBaseName = 'microservices'
-    archiveVersion = '1.0'
+    archiveBaseName.set('microservices')
+    archiveVersion.set('1.0')
 }
