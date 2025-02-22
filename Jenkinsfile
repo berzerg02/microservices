@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/berzerg02/microservices.git'
+                git branch: 'main', url: 'https://github.com/berzerg02/microservices.git'
             }
         }
         stage('Build') {
