@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = 'berzerg02/spring-boot-ci:latest'
+        DOCKER_IMAGE = 'berzerg02/microservices:latest'
     }
     stages {
         stage('Checkout') {
@@ -11,29 +11,29 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat './gradlew clean build'
+                bat 'gradlew.bat clean build'
             }
         }
         stage('Test') {
             steps {
-                bat './gradlew test'
+                bat 'gradlew.bat test'
             }
         }
         stage('Docker Build') {
             steps {
-                bat 'docker build -t $DOCKER_IMAGE .'
+                bat 'docker build -t %DOCKER_IMAGE% .'
             }
         }
         stage('Push Docker Image') {
             steps {
                 withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
-                    bat 'docker push $DOCKER_IMAGE'
+                    bat 'docker push %DOCKER_IMAGE%'
                 }
             }
         }
         stage('Deploy') {
             steps {
-                bat 'docker run -d -p 8080:8080 $DOCKER_IMAGE'
+                bat 'docker run -d -p 8080:8080 %DOCKER_IMAGE%'
             }
         }
     }
