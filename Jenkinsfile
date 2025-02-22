@@ -11,29 +11,29 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh './gradlew clean build'
+                bat './gradlew clean build'
             }
         }
         stage('Test') {
             steps {
-                sh './gradlew test'
+                bat './gradlew test'
             }
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
+                bat 'docker build -t $DOCKER_IMAGE .'
             }
         }
         stage('Push Docker Image') {
             steps {
                 withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
-                    sh 'docker push $DOCKER_IMAGE'
+                    bat 'docker push $DOCKER_IMAGE'
                 }
             }
         }
         stage('Deploy') {
             steps {
-                sh 'docker run -d -p 8080:8080 $DOCKER_IMAGE'
+                bat 'docker run -d -p 8080:8080 $DOCKER_IMAGE'
             }
         }
     }
