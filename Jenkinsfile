@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = 'berzerg02/microservices:latest'
+        DOCKER_IMAGE = 'ibronn/microservices:latest'
     }
     stages {
         stage('Checkout') {
